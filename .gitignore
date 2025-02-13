@@ -1,0 +1,46 @@
+# Node modules
+node_modules/
+
+# Build output
+/android/build/
+/ios/build/
+/ios/Pods/
+/ios/Podfile.lock
+
+# React Native packager
+*.log
+*.tsbuildinfo
+*.eslintcache
+
+# Temporary files
+*.swp
+*.swo
+*.lock
+.vscode/
+
+# Expo (if using)
+.expo/
+.expo-shared/
+
+# JetBrains IDEs (e.g., WebStorm, IntelliJ)
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Watchman
+.watchmanconfig
+
+# Metro bundler
+metro-cache/
+metro-config/
+
+# Android Studio
+*.iml
+.gradle/
+build/
+
+# iOS
+*.xcodeproj/
+*.xcworkspace/
