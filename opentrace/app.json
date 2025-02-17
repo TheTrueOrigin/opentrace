@@ -39,6 +39,12 @@
         {
           "fonts": ["./assets/fonts/Proxima Nova/proximanova_black.otf"]
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+        }
       ]
     ],
     "experiments": {
