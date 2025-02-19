@@ -26,7 +26,8 @@ function ProductListing({ navigation, data }) {
   )
 }
 
-export default function SearchScreen({ navigation }) {
+export default function SearchScreen({ navigation, route }) {
+  const { enableCamera } = route.params;
   const [products, setProducts] = useState([]);
 
   function getProduct(name) {
@@ -56,9 +57,12 @@ export default function SearchScreen({ navigation }) {
 
   let productList = <></>;
   if (products.length > 0) {
-    productList = <>{products.map((product, index) => (
-      <ProductListing key={index} navigation={navigation} data={product}/> // Pass the product's name to the Test component
-    ))}</>
+    productList = 
+      <React.Fragment>
+      {products.map((product, index) => (
+        <ProductListing navigation={navigation} data={product}/> // Pass the product's name to the Test component
+      ))}
+      </React.Fragment>
   }
 
   return (
@@ -69,7 +73,12 @@ export default function SearchScreen({ navigation }) {
     >
       <SafeAreaView style={styles.container}>
           <View style={styles.containerTop}>
-              <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+              <TouchableOpacity style={styles.button} onPress={() => {
+                  navigation.goBack();
+                  setTimeout(() => {
+                    enableCamera();
+                  }, 1000);
+                }}>
                   <AntDesign name="arrowleft" size={30} color="black" />
               </TouchableOpacity>
           </View>

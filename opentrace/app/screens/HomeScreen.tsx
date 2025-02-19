@@ -39,15 +39,16 @@ export default function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
   let scanned = useRef(false);
 
-  function switchScanned() {
+  const switchScanned = () => {
     scanned.current = false;
   }
 
   if (data) {
-    navigation.navigate('Info', {data: data, switchScanned: switchScanned});
+    navigation.navigate('Info', {data: data, enableCamera: switchScanned});
   }
 
   const onScan = ({ type, data }) => {
+    console.log(scanned.current);
     if (scanned.current) return;
     scanned.current = true;
     fetch(`https://live-chat.duckdns.org/produkt/barcode/${data}`)
@@ -72,7 +73,10 @@ export default function HomeScreen({ navigation }) {
     </View>
     <SafeAreaView style={styles.container}>
         <View style={styles.containerTop}>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Search")}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                scanned.current = true;
+                navigation.navigate("Search", {enableCamera: switchScanned})
+              }}>
                 <AntDesign name="search1" size={30} color="black" />
             </TouchableOpacity>
         </View>
