@@ -1,37 +1,74 @@
-import React from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { CameraView, useCameraPermissions } from "expo-camera";
+import { CameraView, Camera } from "expo-camera";
 
-function CameraScreen() {
-  const [permission, requestPermission] = useCameraPermissions();
+function CameraScreen({ onBarcodeScanned }) {
+  const [hasPermission, setHasPermission] = useState(null);
 
-  if (!permission) {
-    // Camera permissions are still loading.
-    return <View />;
+  useEffect(() => {
+    const getCameraPermissions = async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    };
+
+    getCameraPermissions();
+  }, []);
+
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
   }
 
-  if (!permission.granted) {
-    // Camera permissions are not granted yet.
-    return (
-      <View>
-        <Text>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
-      </View>
-    );
-  }
-
-  return (
-    <CameraView facing="back" style={styles.camera}>
-    </CameraView>
+  return (<>
+    <CameraView
+      onBarcodeScanned={onBarcodeScanned}
+      barcodeScannerSettings={{
+        barcodeTypes: ["ean13", "ean8"],
+      }}
+      style={styles.camera}
+    />
+    </>
   );
 }
 
 export default function HomeScreen({ navigation }) {
+  const [data, setData] = useState(null);
+  let scanned = useRef(false);
+
+  function switchScanned() {
+    scanned.current = false;
+  }
+
+  if (data) {
+    navigation.navigate('Info', {data: data, switchScanned: switchScanned});
+  }
+
+  const onScan = ({ type, data }) => {
+    if (scanned.current) return;
+    scanned.current = true;
+    fetch(`https://live-chat.duckdns.org/produkt/barcode/${data}`)
+    .then(response => {
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Parse the response as JSON
+    })
+    .then(responseData => {
+      setData(responseData);
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+  };
+
   return (<>
     <View style={styles.cameraContainer}>
-      <CameraScreen></CameraScreen>
+      <CameraScreen onBarcodeScanned={onScan}></CameraScreen>
     </View>
     <SafeAreaView style={styles.container}>
         <View style={styles.containerTop}>
@@ -95,5 +132,10 @@ const styles = StyleSheet.create({
   camera: {
     width: "100%",
     height: "100%",
+  },
+  rescan: {
+    width: 300,
+    height: 300,
+    backgroundColor: "red",
   }
 });

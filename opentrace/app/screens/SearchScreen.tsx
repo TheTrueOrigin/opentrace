@@ -35,7 +35,7 @@ export default function SearchScreen({ navigation }) {
       return;
     }
     // Construct the URL dynamically with the given product name
-    const url = `http://192.168.0.102:8000/produkt/name/${name}`;
+    const url = `https://live-chat.duckdns.org/produkt/name/${name}`;
   
     // Fetch the product data from the API
     fetch(url)
