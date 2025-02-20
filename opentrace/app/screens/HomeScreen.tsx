@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { CameraView, Camera } from "expo-camera";
+import { useFocusEffect } from '@react-navigation/native';
 
 function CameraScreen({ onBarcodeScanned }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -37,15 +38,30 @@ function CameraScreen({ onBarcodeScanned }) {
 
 export default function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
+  const timeoutRef = useRef(null); // Store timeout ID
   let scanned = useRef(false);
 
-  const switchScanned = () => {
-    scanned.current = false;
-  }
+  useFocusEffect(
+    React.useCallback(() => {
+      timeoutRef.current = setTimeout(() => {
+        scanned.current = false;
+      }, 1000);
 
-  if (data) {
-    navigation.navigate('Info', {data: data, enableCamera: switchScanned});
-  }
+      // Cleanup function to clear timeout if screen loses focus
+      return () => {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+      };
+    }, [])
+  );
+
+  useEffect(() => {
+    if (data) {
+      navigation.navigate('Info', {data: data});
+    }
+  }, [data, navigation]);
+  
 
   const onScan = ({ type, data }) => {
     console.log(scanned.current);
@@ -75,7 +91,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.containerTop}>
             <TouchableOpacity style={styles.button} onPress={() => {
                 scanned.current = true;
-                navigation.navigate("Search", {enableCamera: switchScanned})
+                navigation.navigate("Search");
               }}>
                 <AntDesign name="search1" size={30} color="black" />
             </TouchableOpacity>

@@ -10,7 +10,7 @@ function ProductListing({ navigation, data }) {
   let url = `https://raw.githubusercontent.com/TheTrueOrigin/opentrace-database/refs/heads/main/Medien/${name.replace(/\s+/g, '_').toLowerCase()}.jpg`
   return(
     <>
-    <TouchableOpacity style={styles.productListingChildrenContainer} onPress={() => {navigation.navigate('Info', {navigation: navigation, data: data})}}>
+    <TouchableOpacity style={styles.productListingChildrenContainer} onPress={() => {navigation.navigate('Info', {data: data})}}>
       <View style={styles.imageContainer}>
         <Image
           source={{uri: url}} // Path to the image file
@@ -26,8 +26,7 @@ function ProductListing({ navigation, data }) {
   )
 }
 
-export default function SearchScreen({ navigation, route }) {
-  const { enableCamera } = route.params;
+export default function SearchScreen({ navigation }) {
   const [products, setProducts] = useState([]);
 
   function getProduct(name) {
@@ -57,12 +56,12 @@ export default function SearchScreen({ navigation, route }) {
 
   let productList = <></>;
   if (products.length > 0) {
-    productList = 
-      <React.Fragment>
+    productList = <>
       {products.map((product, index) => (
-        <ProductListing navigation={navigation} data={product}/> // Pass the product's name to the Test component
-      ))}
-      </React.Fragment>
+        <React.Fragment key={index}>
+          <ProductListing navigation={navigation} data={product}/>
+        </React.Fragment>
+      ))}</>
   }
 
   return (
@@ -75,9 +74,6 @@ export default function SearchScreen({ navigation, route }) {
           <View style={styles.containerTop}>
               <TouchableOpacity style={styles.button} onPress={() => {
                   navigation.goBack();
-                  setTimeout(() => {
-                    enableCamera();
-                  }, 1000);
                 }}>
                   <AntDesign name="arrowleft" size={30} color="black" />
               </TouchableOpacity>
