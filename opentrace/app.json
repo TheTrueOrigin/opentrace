@@ -16,7 +16,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.opentrace"
     },
     "web": {
       "bundler": "metro",
@@ -35,12 +40,6 @@
         }
       ],
       [
-        "expo-font",
-        {
-          "fonts": ["./assets/fonts/Proxima Nova/proximanova_black.otf"]
-        }
-      ],
-      [
         "expo-camera",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
@@ -49,6 +48,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a567faf5-2227-4707-8e2b-6a49ca0171b4"
+      }
     }
   }
 }
