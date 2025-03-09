@@ -44,3 +44,6 @@ build/
 # iOS
 *.xcodeproj/
 *.xcworkspace/
+
+app.json
+eas.json
