@@ -1,5 +1,22 @@
 # opentrace
-OpenTrace React-Native frontend
+OpenTrace ist React-Native App, die per Barcode oder Namen Informationen über die Herkunft/Nährwerte/Bestandteile von Produkten abruft. Die App bezieht ihre Daten direkt aus der OpenTrace-Datenbank, über der OpenTrace-Backend-API. 
 
-## Aufbau
-Die App besteht aus drei Seiten. In der Hauptseite kann man einen Barcode scannen. In einer zweiten Seite kann man Produkte suchen, und in der dritten Seite werden Produktdetails gelistet.
+## App-Build für Android
+Um den Build zu vereinfachen, ist es vorgeschlagen Expo zu nutzen. Account erstellen bei [Expo](https://expo.dev/signup).
+1. Installiere EAS mit `npm install -g eas-cli`
+2. Mit EAS mit einem Expo-Konto einlogen: `eas login`
+3. Initialisiere die EAS-Repo mit `eas build:configure`
+4. Eine APK erstellen mit `eas build --platform android`
+Die APK wird auf der Expo Website unter Projekte verfügbar sein.
+
+## App-Build für iOS
+Für einen Standalone-Build für ein iPhone-Gerät benötigst du ein MacBook mit XCode
+1. Kreiere den ios-Ordner mit `npx expo prebuild`
+2. Öffne das Projekt im Finder, öffne in ios die Datei Projektname.xcworkspace
+3. Gehe auf Produkt > Scheme > Scheme bearbeiten
+4. Wähle im Dropdown Release und schließe das Fenster
+5. Verbinde ein iOS-Gerät und melde dich ggf. in XCode mit deiner Apple ID an
+6. Run den Build
+7. Die App wird auf deinem iPhone verfügbar sein (ggf. musst du dem Entwickleraccount trauen, bevor die App installiert werden kann)
+
+Die App nutzt den API-Endpoint: "live-chat.duckdns.org"
