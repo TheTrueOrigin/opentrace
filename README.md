@@ -17,6 +17,6 @@ Für einen Standalone-Build für ein iPhone-Gerät benötigst du ein MacBook mit
 4. Wähle im Dropdown Release und schließe das Fenster
 5. Verbinde ein iOS-Gerät und melde dich ggf. in XCode mit deiner Apple ID an
 6. Run den Build
-7. Die App wird auf deinem iPhone verfügbar sein (ggf. musst du dem Entwickleraccount trauen, bevor die App installiert werden kann)
+7. Die App wird auf deinem iPhone verfügbar sein (ggf. musst du dem Entwickler-Konto trauen, bevor die App installiert werden kann)
 
 Die App nutzt den API-Endpoint: "live-chat.duckdns.org"
