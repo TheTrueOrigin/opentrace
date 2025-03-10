@@ -28,6 +28,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="myapp"/>
         <data android:scheme="com.anonymous.opentrace"/>
+        <data android:scheme="exp+opentrace"/>
       </intent-filter>
     </activity>
   </application>

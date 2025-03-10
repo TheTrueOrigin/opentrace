@@ -64,7 +64,6 @@ export default function HomeScreen({ navigation }) {
   
 
   const onScan = ({ type, data }) => {
-    console.log(scanned.current);
     if (scanned.current) return;
     scanned.current = true;
     fetch(`https://live-chat.duckdns.org/produkt/barcode/${data}`)
