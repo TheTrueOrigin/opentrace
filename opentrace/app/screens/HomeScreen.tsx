@@ -5,6 +5,17 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { CameraView, Camera } from "expo-camera";
 import { useFocusEffect } from '@react-navigation/native';
 
+const CONFIG_URL = "https://raw.githubusercontent.com/TheTrueOrigin/opentrace-backend/refs/heads/main/endpoint.json";
+
+async function getAPI() {
+  const response = await fetch(CONFIG_URL);
+  const json = await response.json();
+  if (json.API) {
+    return json.API;
+  }
+  return null
+}
+
 function CameraScreen({ onBarcodeScanned }) {
   const [hasPermission, setHasPermission] = useState(null);
 
@@ -38,6 +49,8 @@ function CameraScreen({ onBarcodeScanned }) {
 
 export default function HomeScreen({ navigation }) {
   const [data, setData] = useState(null);
+  const [backendUrl, setBackendUrl] = useState(null);
+
   const timeoutRef = useRef(null); // Store timeout ID
   let scanned = useRef(false);
 
@@ -61,6 +74,15 @@ export default function HomeScreen({ navigation }) {
       navigation.navigate('Info', {data: data});
     }
   }, [data, navigation]);
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const url = await getAPI();
+      setBackendUrl(url);
+    };
+
+    fetchAPI();
+  }, [])
   
 
   const onScan = ({ type, data }) => {
@@ -90,7 +112,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.containerTop}>
             <TouchableOpacity style={styles.button} onPress={() => {
                 scanned.current = true;
-                navigation.navigate("Search");
+                navigation.navigate("Search", {api: backendUrl});
               }}>
                 <AntDesign name="search1" size={30} color="black" />
             </TouchableOpacity>

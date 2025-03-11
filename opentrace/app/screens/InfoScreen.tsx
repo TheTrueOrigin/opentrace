@@ -3,56 +3,6 @@ import { ScrollView, View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Ima
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
-function calculateDistance(c1: string[], c2: string[]): Float {
-  if (c1[0] === "0" || c1[1] === "0" || c2[0] === "0" || c2[1] === "0") {
-    return 0;
-  }
-  // ["a", "b"] ["a", "b"]
-  let coord1 = [parseFloat(c1[0]), parseFloat(c1[1])]
-  let coord2 = [parseFloat(c2[0]), parseFloat(c2[1])]
-  
-  const R = 6371; // Erdradius (in km)
-  
-  // Helper function to convert degrees to radians.
-  const toRadians = (degree: number): number => {
-    return degree * Math.PI / 180;
-  };
-  
-  // Umwandeln in Bogenmaß
-  const lat1 = toRadians(coord1[0]);
-  const lon1 = toRadians(coord1[1]);
-  const lat2 = toRadians(coord2[0]);
-  const lon2 = toRadians(coord2[1]);
-  
-  const dLat = lat2 - lat1;
-  const dLon = lon2 - lon1;
-  
-  // Haversine-Formel
-  const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(lat1) * Math.cos(lat2) *
-            Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  
-  // Kilometeranzahl von c1 zu c2
-  return Math.round(R * c);
-}
-
-async function get_coordinates(place) {
-  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(place)}&format=json`;
-  try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.length > 0) {
-          return [data[0]["lat"], data[0]["lon"]];
-      } else {
-          return ["0", "0"]; // No results found
-      }
-  } catch (error) {
-    return ["0", "0"];
-  }
-}
-
 function TableRow({left, right}) {
   return (
     <>
@@ -80,25 +30,20 @@ function HDivider() {
   )
 }
 
+function get_emission(emission) {
+  if (emission < 1) {
+    return (emission * 1000).toFixed(0) + " g"; 
+  }
+  if (emission > 1000) {
+    return (emission / 1000).toFixed(0) + " t"; 
+  }
+  return (emission).toFixed(0) + " kg"; 
+}
+
 export default function InfoScreen({ navigation, route }) {
   const { data } = route.params;
-  const [distance, setDistance] = useState(0);
 
   let url = `https://raw.githubusercontent.com/TheTrueOrigin/opentrace-database/refs/heads/main/Medien/${data["Name"].replace(/\s+/g, '_').toLowerCase()}.jpg`
-
-  useEffect(() => {
-    const calculateTotalDistance = async () => {
-      let totalDistance = 0;
-      for (let bestandteil of data["Bestandteile"]) {
-        const c1 = await get_coordinates(bestandteil["Herstellungsort"]);
-        const c2 = await get_coordinates(data["Herstellungsort"]);
-        totalDistance += calculateDistance(c1, c2);
-      }
-      setDistance(totalDistance); // Update state with the total distance
-    };
-
-    calculateTotalDistance();
-  }, [data]); // Re-run when `data` changes
 
   return (
     <>
@@ -121,13 +66,13 @@ export default function InfoScreen({ navigation, route }) {
             {data["Herstellungsort"] !== "-" ? <Text style={styles.infoSubtitle}>{data["Unternehmen"]["Name"]} &#x2022; {data["Herstellungsort"]} &#x2022; {data["Barcode"]}</Text> : null}
             <View style={styles.infobox}>
               <View style={styles.infoboxLeft}>
-                <Text style={styles.title}>{data["Herstellungsort"] === "-" ? "-" : distance} km</Text>
+                <Text style={styles.title}>{data["Distanz"]} km</Text>
                 <Text>Gesamtstrecke</Text>
               </View>
               <View style={styles.divider}></View>
               <View style={styles.infoboxRight}>
-                <Text style={styles.title}>{data["Herstellungsort"] === "-" ? "-" : (distance/40075).toFixed(3).toString().replace(".", ",")}</Text>
-                <Text>Weltumrundungen</Text>
+                <Text style={styles.title}>{get_emission(data["Emission"])}</Text>
+                <Text>CO₂ Emission</Text>
               </View>
             </View>
             <View style={styles.subContainer}>

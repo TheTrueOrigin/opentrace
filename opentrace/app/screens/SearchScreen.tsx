@@ -25,17 +25,17 @@ function ProductListing({ navigation, data }) {
   )
 }
 
-export default function SearchScreen({ navigation }) {
+export default function SearchScreen({ navigation, route }) {
   const [products, setProducts] = useState([]);
+  const { api } = route.params;
 
   function getProduct(name) {
     if (name === "") {
       setProducts([]);
       return;
     }
-    // Construct the URL dynamically with the given product name
-    const url = `https://live-chat.duckdns.org/produkt/name/${name}`;
-  
+
+    let url = `${api.replace(/\/$/, "")}/produkt/name/${name}`;
     // Fetch the product data from the API
     fetch(url)
       .then(response => {
