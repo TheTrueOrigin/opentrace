@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { CameraView, Camera } from "expo-camera";
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: Platform.OS === "android" ? 20: 0,
   },
   button: {
     width: 50, // Set width to the icon's size
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
   cameraContainer: {
     height: "100%",
     width: "100%",
-    borderRadius: 30,
+    borderRadius: 0,
     overflow: "hidden",
     position: "absolute",
   },

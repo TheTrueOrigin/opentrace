@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 function TableRow({left, right}) {
@@ -42,7 +42,7 @@ function get_emission(emission) {
 export default function InfoScreen({ navigation, route }) {
   const { data } = route.params;
 
-  let url = `https://raw.githubusercontent.com/TheTrueOrigin/opentrace-database/refs/heads/main/Medien/${data["Name"].replace(/\s+/g, '_').toLowerCase()}.jpg`
+  let url = `https://raw.githubusercontent.com/TheTrueOrigin/opentrace-database/refs/heads/main/Medien/${encodeURIComponent(data["Name"].replace(/\s+/g, '_').toLowerCase())}.jpg`
 
   return (
     <>
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: 'row', // Arrange items in a row (horizontal)
     justifyContent: 'space-between', // Space out items evenly
-    paddingTop: 10,
+    paddingTop: Platform.OS === "android" ? 40 : 10,
+    
     paddingLeft: 30,
     paddingRight: 30,
     paddingBottom: 20,

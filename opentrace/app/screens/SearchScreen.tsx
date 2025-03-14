@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import { ScrollView, View, Text, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, Image} from 'react-native';
+import { ScrollView, View, Text, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 function ProductListing({ navigation, data }) {
   let name = data["Name"];
   let companyName = data["Unternehmen"]["Name"];
   let herstellungsort = data["Herstellungsort"];
-  let url = `https://raw.githubusercontent.com/TheTrueOrigin/opentrace-database/refs/heads/main/Medien/${name.replace(/\s+/g, '_').toLowerCase()}.jpg`
+  let url = `https://raw.githubusercontent.com/TheTrueOrigin/opentrace-database/refs/heads/main/Medien/${encodeURIComponent(name.replace(/\s+/g, '_').toLowerCase())}.jpg`
+  console.log(url);
   return(
     <>
     <TouchableOpacity style={styles.productListingChildrenContainer} onPress={() => {navigation.navigate('Info', {data: data})}}>
@@ -67,7 +68,8 @@ export default function SearchScreen({ navigation, route }) {
   return (
     <>
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={"padding"}
+      keyboardVerticalOffset={Platform.OS === "android" ? -20 : 0}
       style={styles.keyboardContainer}
     >
       <SafeAreaView style={styles.container}>
@@ -101,9 +103,10 @@ export default function SearchScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   keyboardContainer: {
     flex: 1,
+
   },
   container: {
-    height: "100%",
+    flex: 1,
     flexDirection: "column",
     justifyContent: 'space-between',
     alignItems: "center",
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: 'row', // Arrange items in a row (horizontal)
     justifyContent: 'space-between', // Space out items evenly
-    paddingTop: 10,
+    paddingTop: Platform.OS === "android" ? 40 : 10,
     paddingLeft: 30,
     paddingRight: 30,
   },
@@ -179,13 +182,12 @@ const styles = StyleSheet.create({
     width: "70%",
     height: "100%",
     paddingLeft: 15,
-    paddingTop: 20,
-    justifyContent: "start",
+    justifyContent: "center",
 
   },
   productNames: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: Platform.OS === "android" ? 17 : 20,
   },
   productCompanyNames: {
     paddingTop: 3,
