@@ -88,7 +88,8 @@ export default function HomeScreen({ navigation }) {
   const onScan = ({ type, data }) => {
     if (scanned.current) return;
     scanned.current = true;
-    fetch(`https://live-chat.duckdns.org/produkt/barcode/${data}`)
+    console.log(data, backendUrl);
+    fetch(`${backendUrl.replace(/\/$/, "")}/produkt/barcode/${data}`)
     .then(response => {
       // Check if the response is ok (status code 200-299)
       if (!response.ok) {

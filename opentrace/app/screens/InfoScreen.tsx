@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { ScrollView, View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 function TableRow({left, right}) {
   return (
@@ -89,7 +88,7 @@ export default function InfoScreen({ navigation, route }) {
               </View>
             </View>
             <View style={styles.subContainer}>
-              <Text style={styles.title}>Nährwerte</Text>
+              <Text style={styles.title}>Nährwerte (pro 100g/ml)</Text>
               <View style={styles.tablebox}>
                 <TableRow left={"Brennwert"} right={data["Nährwerte"]["Brennwert"]}></TableRow>
                 <HDivider></HDivider>

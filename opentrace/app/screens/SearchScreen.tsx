@@ -27,10 +27,11 @@ function ProductListing({ navigation, data }) {
 
 export default function SearchScreen({ navigation, route }) {
   const [products, setProducts] = useState([]);
+  const [input, setText] = useState("");
   const { api } = route.params;
 
   function getProduct(name) {
-    if (name === "") {
+    if (name.trim() === "") {
       setProducts([]);
       return;
     }
@@ -82,8 +83,10 @@ export default function SearchScreen({ navigation, route }) {
               <TextInput
                 style={styles.input}
                 placeholder="Suche Produkt..."
-                onChangeText={(text) => {getProduct(text)}}
+                onChangeText={(text) => {setText(text)}}
                 placeholderTextColor="black"
+                onSubmitEditing={() => getProduct(input)}
+                returnKeyType="search"
               />
             </View>
             <ScrollView style={styles.productListingContainer}>
