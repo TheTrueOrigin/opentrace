@@ -70,7 +70,7 @@ export default function InfoScreen({ navigation, route }) {
               </View>
               <View style={styles.divider}></View>
               <View style={styles.infoboxRight}>
-                <Text style={styles.title}>{get_emission(data["Emission"])}</Text>
+                <Text style={styles.title}>{data["Emission"] === "-" ? "-" : get_emission(data["Emission"])}</Text>
                 <Text>CO₂ Emission</Text>
               </View>
             </View>
