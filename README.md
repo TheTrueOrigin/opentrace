@@ -6,7 +6,13 @@ Um den Build zu vereinfachen, ist es vorgeschlagen Expo zu nutzen. Account erste
 1. Installiere EAS mit `npm install -g eas-cli`
 2. Mit EAS mit einem Expo-Konto einlogen: `eas login`
 3. Initialisiere die EAS-Repo mit `eas build:configure`
-4. Eine APK erstellen mit `eas build --platform android`
+4. Add the following profile in `eas.json`:
+```
+"preview": {
+  "distribution": "internal"
+},
+```
+6. Eine Preview-APK erstellen mit `eas build -p android --profile preview`
 Die APK wird auf der Expo Website unter Projekte verfügbar sein.
 
 ## App-Build für iOS
