@@ -7,7 +7,6 @@ function ProductListing({ navigation, data }) {
   let companyName = data["Unternehmen"]["Name"];
   let herstellungsort = data["Herstellungsort"];
   let url = `https://raw.githubusercontent.com/TheTrueOrigin/opentrace-database/refs/heads/main/Medien/${encodeURIComponent(name.replace(/\s+/g, '_').toLowerCase())}.jpg`
-  console.log(url);
   return(
     <>
     <TouchableOpacity style={styles.productListingChildrenContainer} onPress={() => {navigation.navigate('Info', {data: data})}}>
