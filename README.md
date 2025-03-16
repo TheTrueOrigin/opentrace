@@ -1,6 +1,11 @@
 # opentrace
 OpenTrace ist React-Native App, die per Barcode oder Namen Informationen über die Herkunft/Nährwerte/Bestandteile von Produkten abruft. Die App bezieht ihre Daten direkt aus der OpenTrace-Datenbank, über der OpenTrace-Backend-API. 
 
+## Anforderungen
+1. [Node.js](https://nodejs.org)
+2. Installiere alle Pakete in opentrace mit `npm install`
+3. Development-Build starten mit `npx expo start`
+
 ## App-Build für Android
 Um den Build zu vereinfachen, ist es vorgeschlagen Expo zu nutzen. Account erstellen bei [Expo](https://expo.dev/signup).
 1. Installiere EAS mit `npm install -g eas-cli`

@@ -45,5 +45,5 @@ build/
 *.xcodeproj/
 *.xcworkspace/
 
-app.json
-eas.json
+ios/
+android/
