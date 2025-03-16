@@ -4,7 +4,11 @@ OpenTrace ist React-Native App, die per Barcode oder Namen Informationen über d
 ## Anforderungen
 1. [Node.js](https://nodejs.org)
 2. Installiere alle Pakete in opentrace mit `npm install`
-3. Development-Build starten mit `npx expo start`
+
+## Development Build
+Um einen lokalen Build zu starten, für iOS, Android und Web:
+1. Starten mit `npx expo start`
+2. Entweder QR-Code scannen, oder Website aufrufen
 
 ## App-Build für Android
 Um den Build zu vereinfachen, ist es vorgeschlagen Expo zu nutzen. Account erstellen bei [Expo](https://expo.dev/signup).
